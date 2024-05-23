@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'OmBotak';
+    src: url('/static/fonts/OmBotak.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ATWriter';
+    src: url('/static/fonts/atwriter.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'OldNewspaperTypes';
+    src: url('/static/fonts/OldNewspaperTypes.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body { font-family: 'Helvetica Neue', regular; background-color: #FFF5E0; color: #333; }
+.navbar { background-color: #FFF5E0; }
+.navbar-nav .nav-item { margin-right: 10px; }
+.navbar-nav .nav-item .nav-link { color: #141E46; font-size: 17px; padding: 10px 15px; background-color: #FFF5E0; border-radius: 5px; }
+.navbar-nav .nav-item .nav-link:hover { background-color: #41B06E; color: white; }
+.navbar-nav .nav-item.active .nav-link { background-color: #41B06E; color: white; }
+.navbar-brand { font-family: 'OmBotak', regular; font-size: 20px; color: #141E46; }
+.footer { background-color: #141E46; color: #f2f2f2; text-align: center; padding: 10px 0; }
+
+.btn-custom {
+    background-color: #141E46;
+    color: white;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #41B06E;
+    color: #ffffff;
+}

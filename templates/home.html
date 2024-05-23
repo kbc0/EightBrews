@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EightBrews</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/">EightBrews</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {% if category == 'general' %}active{% endif %}">
+                    <a class="nav-link" href="/category/general">General</a>
+                </li>
+                <li class="nav-item {% if category == 'finance' %}active{% endif %}">
+                    <a class="nav-link" href="/category/finance">Finance</a>
+                </li>
+                <li class="nav-item {% if category == 'technology' %}active{% endif %}">
+                    <a class="nav-link" href="/category/technology">Technology</a>
+                </li>
+                <li class="nav-item {% if category == 'health' %}active{% endif %}">
+                    <a class="nav-link" href="/category/health">Health</a>
+                </li>
+                <li class="nav-item {% if category == 'sports' %}active{% endif %}">
+                    <a class="nav-link" href="/category/sports">Sports</a>
+                </li>
+                <li class="nav-item {% if category == 'entertainment' %}active{% endif %}">
+                    <a class="nav-link" href="/category/entertainment">Entertainment</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="jumbotron text-center" style="background-color: #FFF5E0; color: #141E46;">
+            <h1 class="display-4" style="font-family: 'OmBotak';">EightBrews</h1>
+            <p class="lead">Eight Important <span style="color: #41B06E;">News</span> a Day, Curated for You by <span style="color: #98ABEE;">GPT-4</span></p>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
