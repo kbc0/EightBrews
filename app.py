@@ -12,12 +12,10 @@ client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))  # Fetch the API key from e
 app = Flask(__name__)
 
 feed_urls = {
-    "general": [ ... ],
-    "finance": [ ... ],
-    "technology": [ ... ],
-    "health": [ ... ],
-    "sports": [ ... ],
-    "entertainment": [ ... ]
+    "general": [
+        "http://feeds.bbci.co.uk/news/rss.xml"
+    ]
+
 }
 
 def fetch_top_headlines(category):
