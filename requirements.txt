@@ -3,4 +3,5 @@ feedparser
 numpy
 scikit-learn
 openai
+apscheduler
 
