@@ -7,7 +7,7 @@ from collections import Counter
 import re
 import os  # Import the os module
 
-client = OpenAI(api_key='your_openai_api_key')
+client = OpenAI(api_key='sk-proj-dBBXHTwmjWGpqIwlPq9qT3BlbkFJ3PTTr5nn12T5eVHQyXnH')
 
 app = Flask(__name__)
 
