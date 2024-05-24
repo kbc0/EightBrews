@@ -14,7 +14,23 @@ app = Flask(__name__)
 feed_urls = {
     "general": [
         "http://feeds.bbci.co.uk/news/rss.xml"
+    ],
+    "finance": [
+        "https://www.cnbc.com/id/100003114/device/rss/rss.html"
+    ],
+    "technology": [
+        "http://feeds.bbci.co.uk/news/technology/rss.xml"
+    ],
+    "health": [
+        "http://feeds.bbci.co.uk/news/health/rss.xml"
+    ],
+    "sports": [
+        "http://feeds.bbci.co.uk/sport/rss.xml"
+    ],
+    "entertainment": [
+        "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"
     ]
+
 
 }
 
