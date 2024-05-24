@@ -7,30 +7,17 @@ from collections import Counter
 import re
 import os  # Import the os module
 
-client = OpenAI(api_key='sk-proj-dBBXHTwmjWGpqIwlPq9qT3BlbkFJ3PTTr5nn12T5eVHQyXnH')
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))  # Fetch the API key from environment variable
 
 app = Flask(__name__)
 
 feed_urls = {
-    "general": [
-        "http://feeds.bbci.co.uk/news/rss.xml"
-    ],
-    "finance": [
-        "https://www.cnbc.com/id/100003114/device/rss/rss.html"
-    ],
-    "technology": [
-        "http://feeds.bbci.co.uk/news/technology/rss.xml"
-    ],
-    "health": [
-        "http://feeds.bbci.co.uk/news/health/rss.xml"
-    ],
-    "sports": [
-        "http://feeds.bbci.co.uk/sport/rss.xml"
-    ],
-    "entertainment": [
-        "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"
-    ]
-
+    "general": [ ... ],
+    "finance": [ ... ],
+    "technology": [ ... ],
+    "health": [ ... ],
+    "sports": [ ... ],
+    "entertainment": [ ... ]
 }
 
 def fetch_top_headlines(category):
