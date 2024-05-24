@@ -31,7 +31,6 @@ feed_urls = {
         "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
         "http://feeds.washingtonpost.com/rss/business",
         "https://www.cnbc.com/id/100727362/device/rss/rss.html",
-        "http://feeds.reuters.com/reuters/businessNews",
         "http://rss.cnn.com/rss/money_news_international.rss",
         "https://www.ft.com/?format=rss",
         "http://feeds.skynews.com/feeds/rss/business.xml",
