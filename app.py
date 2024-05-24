@@ -171,15 +171,21 @@ def home():
     return render_template('home.html')
 
 @app.route('/category/<category>')
-def category_page(category):
-    articles = get_articles(category)  # Assume this function fetches articles based on category
-    return render_template('index.html', category=category, articles=articles)
+def show_category(category):
+    if category not in curated_news:
+        return "Category not found", 404
+    return render_template('index.html', category=category, articles=curated_news[category])
 
 @app.route('/search')
 def search():
-    query = request.args.get('q')
-    search_results = search_articles(query)  # Assume this function searches articles based on query
-    return render_template('search_results.html', query=query, articles=search_results)
+    query = request.args.get('q', '')
+    results = []
+    if query:
+        for category, articles in curated_news.items():
+            for article in articles:
+                if query.lower() in article['title'].lower() or query.lower() in article['description'].lower():
+                    results.append(article)
+    return render_template('index.html', category='Search Results', articles=results)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
