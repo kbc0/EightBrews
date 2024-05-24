@@ -1,76 +1,34 @@
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, request
 from openai import OpenAI
 import feedparser
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from collections import Counter
 import re
+import os  # Import the os module
 
-client = OpenAI(api_key='sk-proj-dBBXHTwmjWGpqIwlPq9qT3BlbkFJ3PTTr5nn12T5eVHQyXnH')
+client = OpenAI(api_key='your_openai_api_key')
 
 app = Flask(__name__)
 
 feed_urls = {
     "general": [
-        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-        "http://feeds.bbci.co.uk/news/rss.xml",
-        "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
-        "https://www.theguardian.com/world/rss",
-        "http://rss.cnn.com/rss/edition_world.rss",
-        "https://www.aljazeera.com/xml/rss/all.xml",
-        "http://feeds.foxnews.com/foxnews/latest",
-        "http://feeds.washingtonpost.com/rss/national",
-        "https://www.npr.org/rss/rss.php?id=1001",
-        "https://www.latimes.com/local/rss2.0.xml",
+        "http://feeds.bbci.co.uk/news/rss.xml"
     ],
     "finance": [
-        "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-        "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
-        "http://feeds.washingtonpost.com/rss/business",
-        "https://www.cnbc.com/id/100727362/device/rss/rss.html",
-        "http://feeds.reuters.com/reuters/businessNews",
-        "http://rss.cnn.com/rss/money_news_international.rss",
-        "https://www.ft.com/?format=rss",
-        "http://feeds.skynews.com/feeds/rss/business.xml",
+        "https://www.cnbc.com/id/100003114/device/rss/rss.html"
     ],
     "technology": [
-        "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
-        "http://feeds.bbci.co.uk/news/technology/rss.xml",
-        "https://www.cnbc.com/id/19854910/device/rss/rss.html",
-        "http://rss.cnn.com/rss/edition_technology.rss",
-        "http://feeds.foxnews.com/foxnews/tech",
-        "http://feeds.washingtonpost.com/rss/business/technology",
-        "https://www.npr.org/rss/rss.php?id=1019",
-        "https://www.latimes.com/business/technology/rss2.0.xml",
+        "http://feeds.bbci.co.uk/news/technology/rss.xml"
     ],
     "health": [
-        "https://rss.nytimes.com/services/xml/rss/nyt/Health.xml",
-        "http://feeds.bbci.co.uk/news/health/rss.xml",
-        "https://www.cnbc.com/id/10000108/device/rss/rss.html",
-        "http://feeds.foxnews.com/foxnews/health",
-        "http://feeds.washingtonpost.com/rss/national/health-science",
-        "https://www.npr.org/rss/rss.php?id=1003",
-        "https://www.latimes.com/health/rss2.0.xml",
+        "http://feeds.bbci.co.uk/news/health/rss.xml"
     ],
     "sports": [
-        "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml",
-        "http://feeds.bbci.co.uk/sport/rss.xml",
-        "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-        "http://rss.cnn.com/rss/edition_sport.rss",
-        "http://feeds.foxnews.com/foxnews/sports",
-        "http://feeds.washingtonpost.com/rss/sports",
-        "https://www.npr.org/rss/rss.php?id=1055",
-        "https://www.latimes.com/sports/rss2.0.xml",
+        "http://feeds.bbci.co.uk/sport/rss.xml"
     ],
     "entertainment": [
-        "https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml",
-        "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
-        "https://www.cnbc.com/id/10000739/device/rss/rss.html",
-        "http://rss.cnn.com/rss/edition_entertainment.rss",
-        "http://feeds.foxnews.com/foxnews/entertainment",
-        "http://feeds.washingtonpost.com/rss/entertainment",
-        "https://www.npr.org/rss/rss.php?id=1045",
-        "https://www.latimes.com/entertainment-arts/rss2.0.xml",
+        "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"
     ]
 
 }
@@ -90,10 +48,8 @@ def fetch_top_headlines(category):
     return articles
 
 def score_articles(articles):
-    keywords = [
-        'breaking', 'urgent', 'exclusive', 'important', 'update', 'alert', 
-        'major', 'critical', 'significant', 'essential', 'notable', 'top story'
-    ]
+    keywords = ['breaking', 'urgent', 'exclusive', 'important', 'update', 'alert', 
+                'major', 'critical', 'significant', 'essential', 'notable', 'top story']
     keyword_counter = Counter(keywords)
 
     def get_score(article):
@@ -111,10 +67,10 @@ def summarize_article(article):
     prompt = (
         "You are an AI language model designed to summarize newspaper articles. Your goal is to provide a concise, accurate, "
         "and informative summary of the given article. Follow these guidelines:\n"
-        "Main Points and Key Details: Highlight any important details, including names, dates, statistics, and quotes. Identify and bulletlist with numbers the main points covered in the article.\n"
-        "Concise: Do NOT write in your response anything other than bulletlist of main points and key details."
-        "DO NOT WRITE ANYTHING OTHER THAN THE BULLETLIST"
-        "DO NOT INCLUDE SOURCE IN YOUR RESPONSE. I WILL DO IT MYSELF. DO NOT INCLUDE ANYTHING OTHER THAN THE BULLET LIST OF THE SUMMARY"
+        "Main Points and Key Details: Highlight any important details, including names, dates, statistics, and quotes. Identify and bullet list with numbers the main points covered in the article.\n"
+        "Concise: Do NOT write in your response anything other than bullet list of main points and key details.\n"
+        "DO NOT WRITE ANYTHING OTHER THAN THE BULLET LIST\n"
+        "DO NOT INCLUDE SOURCE IN YOUR RESPONSE. I WILL DO IT MYSELF. DO NOT INCLUDE ANYTHING OTHER THAN THE BULLET LIST OF THE SUMMARY\n"
         "Objective Tone: Maintain an objective and neutral tone throughout the summary.\n"
         "Length: Aim for a summary length of around 100 - 150 words.\n"
         "Relevance: Ensure that the summary covers all relevant aspects of the article without unnecessary information.\n"
@@ -158,7 +114,7 @@ def curate_news():
         scored_articles = score_articles(articles)
         diverse_articles = filter_similar_articles(scored_articles)
         summaries = []
-        for article in diverse_articles[:8]:  # Summarize only top 5 diverse articles
+        for article in diverse_articles[:8]:  # Summarize only top 8 diverse articles
             summary = summarize_article(article)
             summaries.append(summary)
         curated_news[category] = summaries
@@ -188,4 +144,5 @@ def search():
     return render_template('index.html', category='Search Results', articles=results)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
